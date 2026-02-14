@@ -14,7 +14,7 @@ class HomeWorld extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 96, horizontal: 24),
-      color: Colors.white,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Column(
         children: [
           Text(
@@ -23,6 +23,7 @@ class HomeWorld extends StatelessWidget {
               fontSize: 36,
               fontWeight: FontWeight.w300,
               letterSpacing: 4.0,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 64),
@@ -38,12 +39,13 @@ class HomeWorld extends StatelessWidget {
                   AspectRatio(
                     aspectRatio: 3 / 4,
                     child: Container(
-                      color: Colors.grey[50],
+                      color: Theme.of(context).colorScheme.surface,
                       child: Image.asset(
                         items[index]['image']!,
                         fit: BoxFit.cover,
-                        errorBuilder: (c, e, s) =>
-                            Container(color: Colors.grey[200]),
+                        errorBuilder: (c, e, s) => Container(
+                          color: Theme.of(context).colorScheme.surface,
+                        ),
                       ),
                     ),
                   ),
@@ -53,6 +55,7 @@ class HomeWorld extends StatelessWidget {
                     style: GoogleFonts.cormorantGaramond(
                       fontSize: 24,
                       letterSpacing: 1.0,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 ],

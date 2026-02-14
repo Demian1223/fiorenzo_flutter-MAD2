@@ -13,18 +13,20 @@ class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             elevation: 0,
-            iconTheme: const IconThemeData(color: Colors.black),
+            iconTheme: IconThemeData(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             pinned: true,
             title: Text(
               product.brandName.toUpperCase(),
               style: GoogleFonts.cormorantGaramond(
-                color: Colors.black,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.0,
               ),
@@ -45,7 +47,7 @@ class ProductDetailScreen extends StatelessWidget {
               const Divider(height: 1, color: Colors.black12),
 
               // 3. Related Products
-              const RelatedProductsGrid(),
+              RelatedProductsGrid(currentProduct: product),
             ],
           ),
         ),

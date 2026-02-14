@@ -5,12 +5,12 @@ import 'package:mad2/core/api/api_client.dart';
 class OrderService {
   final Dio _dio = ApiClient().dio;
 
-  Future<Map<String, dynamic>> getOrders() async {
+  Future<dynamic> getOrders() async {
     final response = await _dio.get('/api/orders');
     return response.data;
   }
 
-  Future<Map<String, dynamic>> getOrder(int id) async {
+  Future<dynamic> getOrder(int id) async {
     final response = await _dio.get('/api/orders/$id');
     return response.data;
   }
@@ -32,7 +32,7 @@ class OrderService {
     try {
       final response = await _dio.post(
         '/api/checkout/payment-intent',
-        data: {'amount': amount},
+        data: {'amount': amount, 'currency': 'lkr'},
       );
       return response.data;
     } on DioException catch (e) {

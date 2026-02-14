@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mad2/providers/order_provider.dart';
+import 'package:mad2/features/orders/providers/order_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -39,7 +39,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     errorBuilder: (c, e, s) =>
                         Container(color: Colors.grey[900]),
                   ),
-                  Container(color: Colors.black.withOpacity(0.6)), // Overlay
+                  Container(
+                    color: Colors.black.withValues(alpha: 0.6),
+                  ), // Overlay
                   Center(
                     child: Text(
                       'MY ORDERS',
@@ -150,9 +152,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Text(
-                                  order.status.toUpperCase(),
+                                  order.status == 'pending'
+                                      ? 'PENDING (PAY ON DELIVERY)'
+                                      : order.status.toUpperCase(),
                                   style: GoogleFonts.cormorantGaramond(
-                                    fontSize: 12,
+                                    fontSize: 10,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                   ),
@@ -178,7 +182,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                         ),
                                       ),
                                       Text(
-                                        '${(item.unitPrice * item.quantity).toStringAsFixed(0)}',
+                                        (item.unitPrice * item.quantity)
+                                            .toStringAsFixed(0),
                                         style: GoogleFonts.cormorantGaramond(
                                           fontSize: 16,
                                         ),

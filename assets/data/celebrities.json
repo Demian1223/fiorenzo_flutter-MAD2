@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "Jennie",
+        "role": "Global Icon & BLACKPINK Member",
+        "bio": "A trendsetter of her generation, Jennie blends effortless elegance with bold statement pieces. Frequently seen styling Fiorenzo’s structured handbags with minimalist looks, she represents modern luxury with confidence.",
+        "image": "assets/images/OTHER/JENNIE.jpg",
+        "philosophy": "Confidence is the best accessory.",
+        "experience": "Spotted: Paris Fashion Week Front Row"
+    },
+    {
+        "id": 2,
+        "name": "Taylor Swift",
+        "role": "Singer-Songwriter",
+        "bio": "Known for her timeless aesthetic and storytelling charm, Taylor embraces Fiorenzo’s classic leather collections for both city strolls and global tours. Her style merges vintage romance with contemporary refinement.",
+        "image": "assets/images/OTHER/taylor.jpg",
+        "philosophy": "Style evolves, elegance remains.",
+        "experience": "Spotted: The Eras Tour Backstage"
+    },
+    {
+        "id": 3,
+        "name": "Rosé",
+        "role": "Singer & Fashion Muse",
+        "bio": "With her ethereal presence and effortless chic wardrobe, Rosé complements Fiorenzo’s soft leather silhouettes perfectly. She embodies understated sophistication and artistic expression.",
+        "image": "assets/images/OTHER/Rosé.jpg",
+        "philosophy": "Simplicity speaks louder.",
+        "experience": "Spotted: Saint Laurent Fashion Show"
+    },
+    {
+        "id": 4,
+        "name": "Timothée Chalamet",
+        "role": "Actor & Vogue Feature Star",
+        "bio": "Celebrated for redefining red-carpet fashion, Timothée pairs Fiorenzo’s bespoke leather pieces with avant-garde tailoring. Featured in Vogue for his daring yet refined aesthetic, he represents fearless luxury.",
+        "image": "assets/images/OTHER/Timothée.jpg",
+        "philosophy": "Elegance is an attitude.",
+        "experience": "Spotted: Vogue Magazine Feature"
+    }
+]

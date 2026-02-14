@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mad2/features/products/models/product_model.dart';
@@ -58,7 +59,7 @@ class _ShopScreenState extends State<ShopScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Consumer<ProductProvider>(
         builder: (context, provider, child) {
           final filteredProducts = provider.getByGender(widget.gender);
@@ -143,7 +144,7 @@ class ProductCard extends StatelessWidget {
         );
       },
       child: Container(
-        color: const Color(0xFFF9F9F9), // Card background
+        color: Theme.of(context).colorScheme.surface, // Card background
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -151,15 +152,20 @@ class ProductCard extends StatelessWidget {
             Expanded(
               child: SizedBox(
                 width: double.infinity,
-                child: Image.network(
-                  product.fullImageUrl,
+                child: CachedNetworkImage(
+                  imageUrl: product.fullImageUrl,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      color: Colors.grey[200],
-                      child: const Icon(Icons.broken_image, color: Colors.grey),
-                    );
-                  },
+                  placeholder: (context, url) =>
+                      Container(color: Theme.of(context).colorScheme.surface),
+                  errorWidget: (context, url, error) => Container(
+                    color: Theme.of(context).colorScheme.surface,
+                    child: Icon(
+                      Icons.broken_image,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.5),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -175,7 +181,9 @@ class ProductCard extends StatelessWidget {
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.0,
-                      color: Colors.grey[600],
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -188,6 +196,7 @@ class ProductCard extends StatelessWidget {
                       fontSize: 14,
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.w500,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -200,6 +209,7 @@ class ProductCard extends StatelessWidget {
                       fontSize: 14,
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 ],

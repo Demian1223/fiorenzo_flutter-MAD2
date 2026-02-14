@@ -121,7 +121,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     rememberMe: _rememberMe,
                                   );
 
-                                  if (success && mounted) {
+                                  if (!context.mounted) return;
+
+                                  if (success) {
                                     // Navigate to Home/Main Screen
                                     Navigator.of(
                                       context,
@@ -129,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       '/',
                                       (route) => false,
                                     );
-                                  } else if (mounted) {
+                                  } else {
                                     // Ensure keyboard is closed so SnackBar is visible
                                     FocusScope.of(context).unfocus();
 

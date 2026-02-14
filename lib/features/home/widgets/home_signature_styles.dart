@@ -1,5 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mad2/features/men/screens/men_shop_screen.dart';
+import 'package:mad2/features/products/providers/product_provider.dart';
+import 'package:mad2/features/products/screens/product_detail_screen.dart';
+import 'package:mad2/features/women/screens/women_shop_screen.dart';
+import 'package:provider/provider.dart';
 
 class HomeSignatureStyles extends StatelessWidget {
   const HomeSignatureStyles({super.key});
@@ -8,7 +14,7 @@ class HomeSignatureStyles extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 96, horizontal: 24),
-      color: Colors.white,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Column(
         children: [
           // Header
@@ -28,68 +34,106 @@ class HomeSignatureStyles extends StatelessWidget {
               fontSize: 36,
               fontWeight: FontWeight.w300,
               letterSpacing: 2.0,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 64),
 
-          // Product Grid (Placeholder logic)
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 4,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.55,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 32,
-            ),
-            itemBuilder: (context, index) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Container(
-                      color: Colors.grey[50], // Placeholder bg
-                      child: Image.asset(
-                        'assets/images/product_${index + 1}.jpg', // Placeholder
-                        fit: BoxFit.cover,
-                        errorBuilder: (c, e, s) => Center(
-                          child: Icon(
-                            Icons.image_not_supported,
-                            color: Colors.grey[300],
-                            size: 40,
+          // Product Grid (Real Data)
+          Consumer<ProductProvider>(
+            builder: (context, provider, child) {
+              final products = provider.items.take(4).toList();
+
+              if (products.isEmpty) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: products.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.55,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 32,
+                ),
+                itemBuilder: (context, index) {
+                  final product = products[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ProductDetailScreen(product: product),
+                        ),
+                      );
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            color: Theme.of(context).colorScheme.surface,
+                            child: product.fullImageUrl.isNotEmpty
+                                ? CachedNetworkImage(
+                                    imageUrl: product.fullImageUrl,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) =>
+                                        Container(color: Colors.grey[200]),
+                                    errorWidget: (context, url, error) =>
+                                        Container(
+                                          color: Colors.grey[200],
+                                          child: const Icon(
+                                            Icons.broken_image,
+                                            size: 40,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                  )
+                                : const Center(
+                                    child: Icon(Icons.image_not_supported),
+                                  ),
                           ),
                         ),
-                      ),
+                        const SizedBox(height: 16),
+                        Text(
+                          product.brandName.toUpperCase(),
+                          style: GoogleFonts.cormorantGaramond(
+                            fontSize: 10,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
+                            letterSpacing: 2.0,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          product.name,
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.cormorantGaramond(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w300,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          product
+                              .price, // Assuming price is a formatted string or add 'LKR' if needed
+                          style: GoogleFonts.cormorantGaramond(
+                            fontSize: 14,
+                            color: const Color(0xFF8B0000),
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'FIORENZO',
-                    style: GoogleFonts.cormorantGaramond(
-                      fontSize: 10,
-                      color: Colors.grey,
-                      letterSpacing: 2.0,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Luxury Item ${index + 1}',
-                    style: GoogleFonts.cormorantGaramond(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'LKR ${25000 + (index * 5000)}',
-                    style: GoogleFonts.cormorantGaramond(
-                      fontSize: 14,
-                      color: const Color(0xFF8B0000),
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                ],
+                  );
+                },
               );
             },
           ),
@@ -100,9 +144,21 @@ class HomeSignatureStyles extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildViewMoreButton('VIEW MORE MEN\'S'),
+              Expanded(
+                child: _buildViewMoreButton(
+                  context,
+                  'VIEW MORE MEN\'S',
+                  const MenShopScreen(),
+                ),
+              ),
               const SizedBox(width: 16),
-              _buildViewMoreButton('VIEW MORE WOMEN\'S'),
+              Expanded(
+                child: _buildViewMoreButton(
+                  context,
+                  'VIEW MORE WOMEN\'S',
+                  const WomenShopScreen(),
+                ),
+              ),
             ],
           ),
         ],
@@ -110,20 +166,24 @@ class HomeSignatureStyles extends StatelessWidget {
     );
   }
 
-  Widget _buildViewMoreButton(String text) {
+  Widget _buildViewMoreButton(BuildContext context, String text, Widget page) {
     return OutlinedButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+      },
       style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 16),
         side: BorderSide(color: Colors.black.withOpacity(0.1)),
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       ),
       child: Text(
         text,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: GoogleFonts.cormorantGaramond(
           fontSize: 10,
           color: Colors.black,
-          letterSpacing: 3.0,
+          letterSpacing: 2.0, // Reduced slightly to help fit
           fontWeight: FontWeight.bold,
         ),
       ),

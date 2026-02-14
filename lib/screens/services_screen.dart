@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mad2/screens/about_screen.dart';
+import 'package:mad2/screens/ethics_screen.dart';
+import 'package:mad2/features/celebrities/screens/celebrities_screen.dart';
 
 class ServicesScreen extends StatelessWidget {
   const ServicesScreen({super.key});
@@ -30,7 +33,12 @@ class ServicesScreen extends StatelessWidget {
             icon: Icons.info_outline,
             title: 'About Us',
             subtitle: 'Discover our story, mission, and passion.',
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AboutScreen()),
+              );
+            },
           ),
           const SizedBox(height: 16),
           _buildServiceTile(
@@ -38,15 +46,27 @@ class ServicesScreen extends StatelessWidget {
             icon: Icons.balance,
             title: 'Ethics & Values',
             subtitle: 'Learn about sustainability and integrity.',
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const EthicsScreen()),
+              );
+            },
           ),
           const SizedBox(height: 16),
           _buildServiceTile(
             context,
-            icon: Icons.help_outline,
-            title: 'FAQ',
-            subtitle: 'Answers to common questions from our clients.',
-            onTap: () {},
+            icon: Icons.star_outline,
+            title: 'As Seen On',
+            subtitle: 'Famous faces wearing Fiorenzo.',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CelebritiesScreen(),
+                ),
+              );
+            },
           ),
           const SizedBox(height: 16),
           _buildServiceTile(

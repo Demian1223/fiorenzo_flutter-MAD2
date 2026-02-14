@@ -2,25 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mad2/features/auth/providers/auth_provider.dart';
 import 'package:mad2/features/products/providers/product_provider.dart';
-import 'package:mad2/providers/cart_provider.dart';
-import 'package:mad2/providers/order_provider.dart';
-import 'package:mad2/screens/cart_screen.dart';
-import 'package:mad2/screens/checkout/payment_success_screen.dart';
-import 'package:mad2/screens/checkout/payment_summary_screen.dart';
-import 'package:mad2/screens/main_screen.dart';
+import 'package:mad2/features/cart/providers/cart_provider.dart';
+import 'package:mad2/features/orders/providers/order_provider.dart';
+import 'package:mad2/providers/connectivity_provider.dart';
+import 'package:mad2/providers/location_provider.dart';
+import 'package:mad2/providers/device_provider.dart';
+import 'package:mad2/features/cart/screens/cart_screen.dart';
+import 'package:mad2/features/checkout/screens/order_confirmation_screen.dart';
+import 'package:mad2/features/checkout/screens/checkout_screen.dart';
+import 'package:mad2/features/shop/screens/main_screen.dart';
 import 'package:mad2/features/auth/screens/login_screen.dart';
 import 'package:mad2/features/account/screens/my_account_screen.dart';
-import 'package:mad2/screens/orders_screen.dart';
+import 'package:mad2/features/orders/screens/orders_screen.dart';
 import 'package:mad2/features/auth/screens/auth_gate.dart';
 import 'package:provider/provider.dart';
 
-import 'package:flutter_stripe/flutter_stripe.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // TODO: Replace with your actual Stripe Publishable Key
-  Stripe.publishableKey =
-      'pk_test_51Sxh0WIIx8T5NhTFQktGnGnO53WVoeKgsniy4eyg8aWYuLpp7ZPrFglefuznTj9xQDNm1FMrApe5Biq3TzQ4wNIk00bC9CmBEY';
   runApp(const MyApp());
 }
 
@@ -35,25 +33,30 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => OrderProvider()),
+        ChangeNotifierProvider(create: (_) => ConnectivityProvider()),
+        ChangeNotifierProvider(create: (_) => LocationProvider()),
+        ChangeNotifierProvider(create: (_) => DeviceProvider()),
       ],
       child: MaterialApp(
         title: 'Fiorenzo',
         debugShowCheckedModeBanner: false,
+        themeMode: ThemeMode.system,
         theme: ThemeData(
+          brightness: Brightness.light,
           primaryColor: Colors.black,
           scaffoldBackgroundColor: Colors.white,
           colorScheme: const ColorScheme.light(
             primary: Colors.black,
             secondary: Color(0xFF8b0000), // Deep Red
             surface: Colors.white,
-            background: Colors.white,
             onPrimary: Colors.white,
             onSecondary: Colors.white,
             onSurface: Colors.black,
           ),
-          textTheme: GoogleFonts.cormorantGaramondTextTheme(
-            Theme.of(context).textTheme,
-          ).apply(bodyColor: Colors.black, displayColor: Colors.black),
+          textTheme: GoogleFonts.cormorantGaramondTextTheme().apply(
+            bodyColor: Colors.black,
+            displayColor: Colors.black,
+          ),
           appBarTheme: AppBarTheme(
             backgroundColor: Colors.white,
             elevation: 0,
@@ -65,6 +68,35 @@ class MyApp extends StatelessWidget {
               letterSpacing: 1.0,
             ),
           ),
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: Colors.white,
+          scaffoldBackgroundColor: Colors.black,
+          colorScheme: const ColorScheme.dark(
+            primary: Colors.white,
+            secondary: Color(0xFF8b0000), // Deep Red
+            surface: const Color(0xFF1E1E1E), // Dark Grey for cards
+            onPrimary: Colors.black,
+            onSecondary: Colors.white,
+            onSurface: Colors.white, // White text on dark
+          ),
+          textTheme: GoogleFonts.cormorantGaramondTextTheme(
+            ThemeData.dark().textTheme,
+          ).apply(bodyColor: Colors.white, displayColor: Colors.white),
+          appBarTheme: AppBarTheme(
+            backgroundColor: const Color(0xFF121212),
+            elevation: 0,
+            iconTheme: const IconThemeData(color: Colors.white),
+            titleTextStyle: GoogleFonts.cormorantGaramond(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 1.0,
+            ),
+          ),
+          useMaterial3: true,
         ),
         initialRoute: '/',
         routes: {
@@ -73,8 +105,8 @@ class MyApp extends StatelessWidget {
           '/login': (context) => const LoginScreen(),
           '/account': (context) => const MyAccountScreen(),
           '/cart': (context) => const CartScreen(),
-          '/checkout/summary': (context) => const PaymentSummaryScreen(),
-          '/checkout/success': (context) => const PaymentSuccessScreen(),
+          '/checkout': (context) => const CheckoutScreen(),
+          '/order-confirmation': (context) => const OrderConfirmationScreen(),
           '/orders': (context) => const OrdersScreen(),
         },
         onGenerateRoute: (settings) {

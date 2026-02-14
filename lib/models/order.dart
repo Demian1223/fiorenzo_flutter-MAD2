@@ -17,9 +17,9 @@ class OrderItem {
 
   factory OrderItem.fromJson(Map<String, dynamic> json) {
     return OrderItem(
-      id: json['id'],
-      productId: json['product_id'],
-      quantity: json['quantity'],
+      id: int.tryParse(json['id'].toString()) ?? 0,
+      productId: int.tryParse(json['product_id'].toString()) ?? 0,
+      quantity: int.tryParse(json['quantity'].toString()) ?? 1,
       // Handle potentially string or num type
       unitPrice: double.tryParse(json['unit_price']?.toString() ?? '0') ?? 0.0,
       product: json['product'] != null
@@ -46,7 +46,7 @@ class Order {
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
-      id: json['id'],
+      id: int.tryParse(json['id'].toString()) ?? 0,
       status: json['status'] ?? 'pending',
       totalAmount:
           double.tryParse(json['total_amount']?.toString() ?? '0') ?? 0.0,

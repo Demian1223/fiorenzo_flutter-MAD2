@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mad2/models/cart_item.dart';
-import 'package:mad2/services/cart_service.dart';
+import 'package:mad2/features/cart/services/cart_service.dart';
 
 class CartProvider extends ChangeNotifier {
   final CartService _service = CartService();
@@ -32,8 +32,12 @@ class CartProvider extends ChangeNotifier {
       List<dynamic> data = [];
       if (response is List) {
         data = response;
-      } else if (response is Map && response['cart_items'] != null) {
-        data = response['cart_items'];
+      } else if (response is Map) {
+        data =
+            response['cart_items'] ??
+            response['cart'] ??
+            response['data'] ??
+            [];
       }
 
       debugPrint("CartProvider: Parsed ${data.length} items");
@@ -86,5 +90,30 @@ class CartProvider extends ChangeNotifier {
     } catch (e) {
       debugPrint("Remove cart error: $e");
     }
+  }
+
+  Future<void> updateQuantity(int cartItemId, int newQuantity) async {
+    final index = _items.indexWhere((item) => item.id == cartItemId);
+    if (index == -1) return;
+
+    final oldQuantity = _items[index].quantity;
+
+    // 1. Optimistic Update
+    _items[index] = _items[index].copyWith(quantity: newQuantity);
+    notifyListeners();
+
+    try {
+      await _service.updateCartItem(cartItemId, newQuantity);
+    } catch (e) {
+      debugPrint("Update quantity error: $e");
+      // Revert on failure
+      _items[index] = _items[index].copyWith(quantity: oldQuantity);
+      notifyListeners();
+    }
+  }
+
+  void clear() {
+    _items = [];
+    notifyListeners();
   }
 }

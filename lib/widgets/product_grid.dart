@@ -35,7 +35,7 @@ class ProductGrid extends StatelessWidget {
               // Image
               Expanded(
                 child: Container(
-                  color: const Color(0xFFF9F9F9),
+                  color: Theme.of(context).colorScheme.surface,
                   child: Image.network(
                     product.imageUrl ??
                         '', // Use placeholder if empty or handle error
@@ -68,7 +68,7 @@ class ProductGrid extends StatelessWidget {
                 style: GoogleFonts.cormorantGaramond(
                   fontSize: 16,
                   fontStyle: FontStyle.italic,
-                  color: Colors.black,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               const SizedBox(height: 4),
@@ -77,7 +77,9 @@ class ProductGrid extends StatelessWidget {
                 style: GoogleFonts.cormorantGaramond(
                   fontSize: 14,
                   fontStyle: FontStyle.italic,
-                  color: Colors.black87,
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.8),
                 ),
               ),
             ],

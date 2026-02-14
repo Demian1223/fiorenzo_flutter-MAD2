@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mad2/core/theme/app_theme.dart';
-import 'package:mad2/features/auth/providers/auth_provider.dart';
 import 'package:mad2/features/home/screens/home_screen.dart';
-import 'package:mad2/features/men/screens/men_shop_screen.dart'; // Add import
-import 'package:mad2/features/women/screens/women_shop_screen.dart'; // Add import
+import 'package:mad2/features/men/screens/men_shop_screen.dart';
+import 'package:mad2/features/women/screens/women_shop_screen.dart';
+import 'package:mad2/features/cart/screens/cart_screen.dart';
+import 'package:mad2/screens/services_screen.dart';
+import 'package:mad2/features/auth/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
 class MainShell extends StatefulWidget {
@@ -19,10 +20,10 @@ class _MainShellState extends State<MainShell> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const WomenShopScreen(), // Women Shop
-    const MenShopScreen(), // Men Shop
-    const Scaffold(body: Center(child: Text("Cart Placeholder"))), // Cart
-    const ProfileScreen(), // Profile
+    const WomenShopScreen(),
+    const MenShopScreen(),
+    const CartScreen(),
+    const ServicesScreen(),
   ];
 
   @override
@@ -58,12 +59,12 @@ class _MainShellState extends State<MainShell> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.woman_outlined), // Or custom icon
+              icon: Icon(Icons.woman_outlined),
               activeIcon: Icon(Icons.woman),
               label: 'Women',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.man_outlined), // Or custom icon
+              icon: Icon(Icons.man_outlined),
               activeIcon: Icon(Icons.man),
               label: 'Men',
             ),
@@ -73,9 +74,9 @@ class _MainShellState extends State<MainShell> {
               label: 'Cart',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
-              activeIcon: Icon(Icons.person),
-              label: 'Profile',
+              icon: Icon(Icons.grid_view_outlined),
+              activeIcon: Icon(Icons.grid_view),
+              label: 'Services',
             ),
           ],
         ),
@@ -98,16 +99,7 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (user?.profilePhotoUrl != null)
-              CircleAvatar(
-                radius: 40,
-                backgroundImage: NetworkImage(user!.profilePhotoUrl!),
-              )
-            else
-              const CircleAvatar(
-                radius: 40,
-                child: Icon(Icons.person, size: 40),
-              ),
+            const CircleAvatar(radius: 40, child: Icon(Icons.person, size: 40)),
             const SizedBox(height: 16),
             Text(
               user?.name ?? 'User',

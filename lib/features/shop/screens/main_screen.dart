@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mad2/features/home/screens/home_screen.dart';
 import 'package:mad2/features/men/screens/men_shop_screen.dart';
 import 'package:mad2/features/women/screens/women_shop_screen.dart';
-import 'package:mad2/screens/cart_screen.dart';
+import 'package:mad2/features/cart/screens/cart_screen.dart';
 import 'package:mad2/screens/services_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -33,15 +33,17 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onBottomNavTapped,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.black,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        selectedItemColor: Theme.of(context).colorScheme.onSurface,
+        unselectedItemColor: Theme.of(
+          context,
+        ).colorScheme.onSurface.withValues(alpha: 0.5),
         selectedLabelStyle: GoogleFonts.cormorantGaramond(
           fontSize: 12,
           fontWeight: FontWeight.bold,

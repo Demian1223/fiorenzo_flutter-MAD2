@@ -7,7 +7,7 @@ class HomeFeaturedArticle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: Theme.of(context).scaffoldBackgroundColor,
       padding: const EdgeInsets.symmetric(vertical: 96, horizontal: 24),
       child: Column(
         children: [
@@ -15,11 +15,12 @@ class HomeFeaturedArticle extends StatelessWidget {
           AspectRatio(
             aspectRatio: 3 / 4,
             child: Container(
-              color: Colors.grey[100],
+              color: Theme.of(context).colorScheme.surface,
               child: Image.asset(
                 'assets/images/OTHER/heroside.png',
                 fit: BoxFit.cover,
-                errorBuilder: (c, e, s) => Container(color: Colors.grey[300]),
+                errorBuilder: (c, e, s) =>
+                    Container(color: Theme.of(context).colorScheme.surface),
               ),
             ),
           ),
@@ -32,6 +33,7 @@ class HomeFeaturedArticle extends StatelessWidget {
               fontSize: 32,
               fontWeight: FontWeight.w400,
               letterSpacing: 1.0,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
             textAlign: TextAlign.center,
           ),
@@ -42,6 +44,7 @@ class HomeFeaturedArticle extends StatelessWidget {
               fontSize: 16,
               height: 1.6,
               fontWeight: FontWeight.w300,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
             textAlign: TextAlign.center,
           ),

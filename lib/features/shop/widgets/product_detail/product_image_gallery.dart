@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ProductImageGallery extends StatefulWidget {
@@ -16,7 +17,7 @@ class _ProductImageGalleryState extends State<ProductImageGallery> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFFF5F5F5),
+      color: Theme.of(context).colorScheme.surface,
       height: 500, // Min height as requested
       constraints: const BoxConstraints(minHeight: 500),
       child: Stack(
@@ -26,10 +27,12 @@ class _ProductImageGalleryState extends State<ProductImageGallery> {
             itemCount: widget.images.length,
             onPageChanged: (index) => setState(() => _currentIndex = index),
             itemBuilder: (context, index) {
-              return Image.network(
-                widget.images[index],
-                fit: BoxFit.contain, // objectContain style
-                errorBuilder: (context, error, stackTrace) => const Center(
+              return CachedNetworkImage(
+                imageUrl: widget.images[index],
+                fit: BoxFit.contain,
+                placeholder: (context, url) =>
+                    const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Center(
                   child: Icon(Icons.broken_image, size: 40, color: Colors.grey),
                 ),
               );

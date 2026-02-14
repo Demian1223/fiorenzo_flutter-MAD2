@@ -36,6 +36,20 @@ class CartService {
     await _dio.delete('/api/cart/$cartItemId');
   }
 
+  Future<void> updateCartItem(int cartItemId, int quantity) async {
+    try {
+      debugPrint(
+        "CartService: PUT /api/cart/$cartItemId with quantity=$quantity",
+      );
+      await _dio.put('/api/cart/$cartItemId', data: {'quantity': quantity});
+    } on DioException catch (e) {
+      debugPrint(
+        "CartService: Update Error ${e.response?.statusCode} - ${e.response?.data}",
+      );
+      rethrow;
+    }
+  }
+
   Future<void> clearCart() async {
     // Optional: Only if API supports it, otherwise loop delete
     // awaiting API verify
