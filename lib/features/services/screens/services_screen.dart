@@ -16,9 +16,9 @@ class ServicesScreen extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        foregroundColor: Theme.of(context).colorScheme.onSurface,
         elevation: 0,
-        foregroundColor: Colors.black,
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -28,6 +28,12 @@ class ServicesScreen extends StatelessWidget {
             icon: Icons.person_outline,
             title: 'My Account',
             onTap: () => Navigator.pushNamed(context, '/account'),
+          ),
+          _buildServiceTile(
+            context,
+            icon: Icons.star_outline,
+            title: 'AS SEEN ON',
+            onTap: () => Navigator.pushNamed(context, '/celebrities'),
           ),
           _buildServiceTile(
             context,
@@ -54,11 +60,11 @@ class ServicesScreen extends StatelessWidget {
   }) {
     return Card(
       elevation: 0,
-      color: Colors.grey[50],
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
       margin: const EdgeInsets.only(bottom: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
       child: ListTile(
-        leading: Icon(icon, color: Colors.black),
+        leading: Icon(icon, color: Theme.of(context).colorScheme.onSurface),
         title: Text(
           title,
           style: GoogleFonts.cormorantGaramond(

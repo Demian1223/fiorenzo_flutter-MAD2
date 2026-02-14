@@ -14,6 +14,7 @@ import 'package:mad2/features/shop/screens/main_screen.dart';
 import 'package:mad2/features/auth/screens/login_screen.dart';
 import 'package:mad2/features/account/screens/my_account_screen.dart';
 import 'package:mad2/features/orders/screens/orders_screen.dart';
+import 'package:mad2/features/celebrities/screens/celebrities_screen.dart';
 import 'package:mad2/features/auth/screens/auth_gate.dart';
 import 'package:provider/provider.dart';
 
@@ -108,6 +109,7 @@ class MyApp extends StatelessWidget {
           '/checkout': (context) => const CheckoutScreen(),
           '/order-confirmation': (context) => const OrderConfirmationScreen(),
           '/orders': (context) => const OrdersScreen(),
+          '/celebrities': (context) => const CelebritiesScreen(),
         },
         onGenerateRoute: (settings) {
           if (settings.name == '/product-detail') {
