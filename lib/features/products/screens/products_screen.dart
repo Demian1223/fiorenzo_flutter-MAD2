@@ -166,7 +166,7 @@ class ProductCard extends StatelessWidget {
           const SizedBox(height: 12),
           // Brand
           Text(
-            product.brand?.name.toUpperCase() ?? 'FIORENZO',
+            product.brandName.toUpperCase(),
             style: GoogleFonts.cormorantGaramond(
               fontSize: 10,
               fontWeight: FontWeight.bold,
