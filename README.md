@@ -1,9 +1,6 @@
 ---
 
 ## 📱 README 2: For `fiorenzo_flutter-MAD2`
-
-Copy and paste this raw markdown into the `README.md` file of your **Flutter mobile application** repository:
-
 ```markdown
 # Fiorenzo Luxury Boutique — Cross-Platform Mobile Application (MAD2)
 
