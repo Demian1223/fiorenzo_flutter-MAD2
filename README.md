@@ -1,6 +1,3 @@
----
-
-## 📱 README 2: For `fiorenzo_flutter-MAD2`
 ```markdown
 # Fiorenzo Luxury Boutique — Cross-Platform Mobile Application (MAD2)
 
