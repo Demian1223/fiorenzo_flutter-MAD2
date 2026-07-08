@@ -1,4 +1,4 @@
-# Fiorenzo — Luxury Fashion E-Commerce Mobile App (Flutter)
+# Fiorenzo — Luxury Fashion E-Commerce Mobile App (Flutter) 
 
 Fiorenzo is a cross-platform mobile shopping app built for a luxury fashion retail concept, focused on a smooth, high-end user experience with offline resilience and native device integration.
 
